@@ -1,4 +1,4 @@
-<b>🟩 Information 🟩</b>
+<b>🟥 Error 🟥</b>
 <b>App Name </b>{{ $appName }}
 
 {{ $message }}

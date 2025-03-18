@@ -4,6 +4,7 @@ namespace C0deM1ner\LaravelTelegramLogger\Console\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Throwable;
 
 class SendTestMessageCommand extends Command
 {
@@ -35,6 +36,7 @@ class SendTestMessageCommand extends Command
      * Execute the console command.
      *
      * @return int
+     * @throws Throwable
      */
     public function handle(): int
     {

@@ -2,10 +2,8 @@
 
 namespace C0deM1ner\LaravelTelegramLogger\Logger;
 
-use C0deM1ner\LaravelTelegramLogger\Telegram\TelegramBotApi;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
-use Monolog\LogRecord;
 
 class TelegramLoggerHandler extends AbstractProcessingHandler
 {
@@ -22,13 +20,13 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
         $this->chatId = $config['chat_id'];
     }
 
-    protected function write(LogRecord|array $record): void
+    protected function write($record): void
     {
-        app(TelegramBotApi::class)::sendMessage(
-            $this->token,
-            $this->chatId,
-            config('app.name') . PHP_EOL .
-            $record['formatted']
-        );
+        $type = config('telegram-logger.default_logger_type', 'error');
+
+        telegramLog()
+            ->setToken($this->token)
+            ->setChatId($this->chatId)
+            ->$type($record['formatted']);
     }
 }

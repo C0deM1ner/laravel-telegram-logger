@@ -23,7 +23,8 @@ class TelegramBotApi
 
             $response = Http::withoutVerifying()->post($url, [
                 'chat_id' => $chatId,
-                'text' => $text
+                'text' => $text,
+                'parse_mode' => 'HTML'
             ])->throw()->json();
 
             return $response['ok'] ?? false;
