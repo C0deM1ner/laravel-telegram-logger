@@ -6,14 +6,12 @@ class TelegramLog
 {
     public string $token;
     public string $chatId;
-    public string $message;
 
 
-    public function __construct($message)
+    public function __construct()
     {
         $this->token = config('telegram-logger.token');
         $this->chatId = config('telegram-logger.chat_id');
-        $this->message = $message;
     }
 
     public function info(string $message): void
