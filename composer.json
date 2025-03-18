@@ -25,7 +25,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "C0deM1ner\\LaravelTelegramLogger\\TelegramLoggerServiceProvider"
+                "C0deM1ner\\LaravelTelegramLogger\\Providers\\TelegramLoggerServiceProvider"
             ]
         }
     }
