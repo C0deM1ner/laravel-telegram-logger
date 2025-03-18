@@ -60,6 +60,5 @@ class TelegramLoggerServiceProvider extends ServiceProvider
                 SendTestMessageCommand::class,
             ]);
         }
-
     }
 }
