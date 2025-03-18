@@ -31,7 +31,7 @@ TELEGRAM_BOT_TOKEN=your-telegram-bot-token
 TELEGRAM_CHAT_ID=your-telegram-chat-id
 ```
 
-3. Configure logging in `config/telegram-logger.php`:
+3. Configure logging in `config/logging.php`:
 
 ```php
 'channels' => [

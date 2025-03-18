@@ -3,7 +3,9 @@
 namespace C0deM1ner\LaravelTelegramLogger\Providers;
 
 use C0deM1ner\LaravelTelegramLogger\Console\Commands\SendTestMessageCommand;
+use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
+use Throwable;
 
 class TelegramLoggerServiceProvider extends ServiceProvider
 {
@@ -11,10 +13,27 @@ class TelegramLoggerServiceProvider extends ServiceProvider
      * Register any application services.
      *
      * @return void
+     * @throws Throwable
      */
     public function register(): void
     {
-        //
+        $errorCodes = config('telegram-logger.log_errors');
+
+        if (count($errorCodes) > 0 && !$this->app->runningInConsole()) {
+            app(ExceptionHandler::class)->reportable(function (Throwable $e) use ($errorCodes) {
+                if (method_exists($e, 'getStatusCode')) {
+                    $code = $e->getStatusCode();
+
+                } else {
+                    $code = 500;
+                }
+
+
+                if (in_array($code, $errorCodes)) {
+                    telegramLog()->error($e->getMessage());
+                }
+            });
+        }
     }
 
     /**
