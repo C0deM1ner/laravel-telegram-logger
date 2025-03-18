@@ -4,6 +4,7 @@ namespace C0deM1ner\LaravelTelegramLogger\Telegram;
 
 use C0deM1ner\LaravelTelegramLogger\Telegram\Exceptions\TelegramBotApiException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Throwable;
 
 class TelegramBotApi
@@ -18,6 +19,15 @@ class TelegramBotApi
      */
     public static function sendMessage(string $token, string $chatId, string $text = ''): bool
     {
+        $key = 'telegram_logger';
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            info('Telegram rate limit exceeded');
+            return false;
+        }
+
+        RateLimiter::hit($key);
+
         try {
             $url = self::HOST . $token . '/sendMessage';
 

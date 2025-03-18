@@ -19,7 +19,7 @@
             "C0deM1ner\\LaravelTelegramLogger\\": "src"
         },
         "files": [
-            "src/helpers.php"
+          "src/helpers.php"
         ]
     },
     "extra": {
