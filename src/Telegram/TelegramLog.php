@@ -10,7 +10,7 @@ class TelegramLog
 
     protected string $token;
     protected string $chatId;
-    protected mixed $appName;
+    protected string $appName;
 
 
     public function __construct()
