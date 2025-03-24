@@ -43,6 +43,7 @@ TELEGRAM_CHAT_ID=your-telegram-chat-id
             'via' => \C0deM1ner\LaravelTelegramLogger\Logger\TelegramLogger::class,
             'chat_id' => env('TELEGRAM_CHAT_ID', '1234567'),
             'token' => env('TELEGRAM_BOT_TOKEN', '')
+            'type' => 'alert', // can be 'alert', 'error', 'info'
         ],
         
         // You can also add multiple Telegram channels
