@@ -3,6 +3,7 @@
 namespace C0deM1ner\LaravelTelegramLogger\Providers;
 
 use C0deM1ner\LaravelTelegramLogger\Console\Commands\SendTestMessageCommand;
+use C0deM1ner\LaravelTelegramLogger\Types\FormatExceptionForTelegramType;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 use Throwable;
@@ -53,13 +54,20 @@ class TelegramLoggerServiceProvider extends ServiceProvider
             app(ExceptionHandler::class)->reportable(function (Throwable $e) use ($errorCodes) {
                 if (method_exists($e, 'getStatusCode')) {
                     $code = $e->getStatusCode();
-
                 } else {
                     $code = 500;
                 }
 
                 if (in_array($code, $errorCodes)) {
-                    telegramLog()->error($e->getMessage());
+                    $additionalData = [
+                        'Request Method' => request()->method(),
+                        'Request URL' => request()->url()
+                    ];
+
+                    telegramLog()->error(
+                        (new FormatExceptionForTelegramType())
+                            ->execute($e, $additionalData)
+                    );
                 }
             });
         }

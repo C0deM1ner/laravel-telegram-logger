@@ -1,6 +1,6 @@
 {
     "name": "c0dem1ner/laravel-telegram-logger",
-    "description": "description",
+    "description": "Telegram Log integration for Laravel",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [

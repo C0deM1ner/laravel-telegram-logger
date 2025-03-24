@@ -2,6 +2,7 @@
 
 namespace C0deM1ner\LaravelTelegramLogger\Telegram;
 
+use Illuminate\Support\Facades\RateLimiter;
 use Throwable;
 
 class TelegramLog
@@ -42,6 +43,20 @@ class TelegramLog
         return $this;
     }
 
+    protected function rateLimiter($message): bool
+    {
+        $key = md5('telegram_logger' . $message);
+
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            info('Telegram rate limit exceeded');
+            return false;
+        }
+
+        RateLimiter::hit($key);
+
+        return true;
+    }
+
     /**
      * @param string $message
      * @return void
@@ -80,6 +95,10 @@ class TelegramLog
      */
     private function send($type, $message): void
     {
+        if (!$this->rateLimiter($message)) {
+            return;
+        }
+
         $chunks = $this->chunkMessage(
             $this->formatText($type, $message)
         );

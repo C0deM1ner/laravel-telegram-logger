@@ -9,6 +9,7 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
 {
     public string $token;
     public string $chatId;
+    public string $type;
 
     public function __construct(array $config)
     {
@@ -18,15 +19,16 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
 
         $this->token = $config['token'];
         $this->chatId = $config['chat_id'];
+        $this->type = $config['type'];
     }
 
     protected function write($record): void
     {
-        $type = config('telegram-logger.default_logger_type', 'error');
+        $this->type = $this->type ?? config('telegram-logger.default_logger_type', 'error');
 
         telegramLog()
             ->setToken($this->token)
             ->setChatId($this->chatId)
-            ->$type($record['formatted']);
+            ->$this->type($record['formatted']);
     }
 }
