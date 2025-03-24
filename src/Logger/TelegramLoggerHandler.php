@@ -24,11 +24,11 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
 
     protected function write($record): void
     {
-        $this->type = $this->type ?? config('telegram-logger.default_logger_type', 'error');
+        $type = $this->type ?? config('telegram-logger.default_logger_type', 'error');
 
         telegramLog()
             ->setToken($this->token)
             ->setChatId($this->chatId)
-            ->$this->type($record['formatted']);
+            ->$type($record['formatted']);
     }
 }
