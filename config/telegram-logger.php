@@ -69,4 +69,29 @@ return [
     'log_errors' => [
         '500'
     ],
+
+    /*
+     | --------------------------------------------------------------------------
+     | Rate Limiter max attempts
+     | --------------------------------------------------------------------------
+     |
+     | This option defines the maximum number of attempts to send a message
+     | to the Telegram Bot API. The default value is 1.
+     | Telegram log will send one exemplary message per day.
+     |
+     */
+
+    'max_attempts' => 1,
+
+    /*
+     | --------------------------------------------------------------------------
+     | Rate Limiter decay seconds
+     | --------------------------------------------------------------------------
+     |
+     | This option defines the number of seconds to wait before retrying to
+     | send a message to the Telegram Bot API. The default value is 1 day.
+     |
+     */
+
+    'decay_seconds' => 60 * 60 * 24,
 ];

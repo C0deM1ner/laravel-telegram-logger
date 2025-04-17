@@ -46,13 +46,16 @@ class TelegramLog
     protected function rateLimiter($message): bool
     {
         $key = md5('telegram_logger' . $message);
+        $decaySeconds = config('telegram-logger.decay_seconds', 60 * 60 * 24);
+        $maxAttempts = config('telegram-logger.max_attempts', 1);
 
-        if (RateLimiter::tooManyAttempts($key, 5)) {
+        if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             info('Telegram rate limit exceeded');
+
             return false;
         }
 
-        RateLimiter::hit($key);
+        RateLimiter::hit($key, $decaySeconds);
 
         return true;
     }
