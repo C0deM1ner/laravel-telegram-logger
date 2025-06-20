@@ -3,6 +3,8 @@
 <b>File:</b> <code>{{ $exception->getFile() }}</code>
 <b>Line:</b> <code>{{ $exception->getLine() }}</code>
 
+<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
+
 @if (!empty($additionalData))
 <b>Additional Data:</b>
     @foreach ($additionalData as $key => $value)
@@ -10,6 +12,7 @@
     @endforeach
 @endif
 
+---
 <code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
 
 @if (!empty($requestParameters))
