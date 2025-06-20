@@ -10,6 +10,14 @@
     @endforeach
 @endif
 
+<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
+
+@if (!empty($requestParameters))
+<b>Request Parameters:</b>
+<pre>{{ json_encode($requestParameters, JSON_PRETTY_PRINT) }}</pre>
+@endif
+
+<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
 
 <b>Trace:</b>
 <pre>{{ $trace }}</pre>

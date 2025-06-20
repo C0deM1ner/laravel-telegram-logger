@@ -9,11 +9,12 @@ class FormatExceptionForTelegramType
     /**
      * @throws Throwable
      */
-    public function execute(Throwable $exception, $additionalData = []): string
+    public function execute(Throwable $exception, $additionalData = [], $requestParameters = []): string
     {
         return view('telegram-logger::types.exception', [
             'exception' => $exception,
             'additionalData' => $additionalData,
+            'requestParameters' => $requestParameters,
             'trace' => $this->formatTrace($exception),
         ])->render();
     }

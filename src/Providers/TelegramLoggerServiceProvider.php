@@ -61,12 +61,20 @@ class TelegramLoggerServiceProvider extends ServiceProvider
                 if (in_array($code, $errorCodes)) {
                     $additionalData = [
                         'Request Method' => request()->method(),
-                        'Request URL' => request()->url()
+                        'Request URL' => request()->url(),
+                        'User Agent' => request()->header('User-Agent'),
                     ];
+
+                    $requestParameters = request()->all();
+
 
                     telegramLog()->error(
                         (new FormatExceptionForTelegramType())
-                            ->execute($e, $additionalData)
+                            ->execute(
+                                $e,
+                                $additionalData,
+                                $requestParameters
+                            )
                     );
                 }
             });
