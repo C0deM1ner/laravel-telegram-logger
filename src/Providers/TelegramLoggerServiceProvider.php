@@ -65,15 +65,11 @@ class TelegramLoggerServiceProvider extends ServiceProvider
                         'User Agent' => request()->header('User-Agent'),
                     ];
 
-                    $requestParameters = request()->all();
-
-
                     telegramLog()->error(
                         (new FormatExceptionForTelegramType())
                             ->execute(
                                 $e,
                                 $additionalData,
-                                $requestParameters
                             )
                     );
                 }

@@ -50,12 +50,19 @@ class TelegramLog
         $maxAttempts = config('telegram-logger.max_attempts', 1);
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+            info('Telegram rate limit exceeded for message: ' . $message);
+
+            return false;
+        }
+
+        if (RateLimiter::tooManyAttempts('telegram_logger', 5)){
             info('Telegram rate limit exceeded');
 
             return false;
         }
 
         RateLimiter::hit($key, $decaySeconds);
+        RateLimiter::hit('telegram_logger');
 
         return true;
     }
