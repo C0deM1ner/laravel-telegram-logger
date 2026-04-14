@@ -109,6 +109,8 @@ class TelegramLog
             return;
         }
 
+        $message = e($message);
+
         $chunks = $this->chunkMessage(
             $this->formatText($type, $message)
         );
@@ -128,7 +130,7 @@ class TelegramLog
      */
     private function chunkMessage($message): array
     {
-        return str_split($message, self::MAX_MESSAGE_LENGTH);
+        return mb_str_split($message, self::MAX_MESSAGE_LENGTH);
     }
 
     /**
