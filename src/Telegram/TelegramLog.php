@@ -2,13 +2,12 @@
 
 namespace C0deM1ner\LaravelTelegramLogger\Telegram;
 
+use C0deM1ner\LaravelTelegramLogger\Actions\ChunkTelegramMessageAction;
 use Illuminate\Support\Facades\RateLimiter;
 use Throwable;
 
 class TelegramLog
 {
-    protected const MAX_MESSAGE_LENGTH = 4096;
-
     protected string $token;
     protected string $chatId;
     protected string $appName;
@@ -109,8 +108,6 @@ class TelegramLog
             return;
         }
 
-        $message = e($message);
-
         $chunks = $this->chunkMessage(
             $this->formatText($type, $message)
         );
@@ -130,7 +127,8 @@ class TelegramLog
      */
     private function chunkMessage($message): array
     {
-        return mb_str_split($message, self::MAX_MESSAGE_LENGTH);
+        return app(ChunkTelegramMessageAction::class)
+            ->execute($message);
     }
 
     /**

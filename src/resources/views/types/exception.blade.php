@@ -1,34 +1,25 @@
-<b>Type:</b> <code>{{ get_class($exception) }}</code>
-<b>Message:</b> <i>{{ $exception->getMessage() }}</i>
+@props([
+    'exception',
+    'trace',
+    'requestParamsJson' => json_encode(request()->all(), JSON_PRETTY_PRINT | JSON_PARTIAL_OUTPUT_ON_ERROR)
+])
+<b>Request URL:</b> ({{ request()->method() }}) <code>{{ request()->url() }}</code>
+<b>Exception:</b> <code>{{ get_class($exception) }}</code>
+<b>Message:</b> <em>{{ $exception->getMessage() }}</em>
+
+<blockquote expandable>
 <b>File:</b> <code>{{ $exception->getFile() }}</code>
 <b>Line:</b> <code>{{ $exception->getLine() }}</code>
-
-
-@if (!empty($additionalData))
-<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
-
-<b>Additional Data:</b>
-    @foreach ($additionalData as $key => $value)
-    <b>{{ $key }}:</b> <code>{{ $value }}</code>
-    @endforeach
-@endif
-
-
+<b>User Agent:</b> <code>{{ request()->header('User-Agent') }}</code>
+</blockquote>
 @if (!empty(request()->all()))
-<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
-
+@if(mb_strlen($requestParamsJson) > 600)
+<b>Request parameters is too long!!</b>
+@else
 <b>Request Parameters:</b>
-<pre>{{ json_encode(request()->all(), JSON_PRETTY_PRINT) }}</pre>
+<pre>{{ $requestParamsJson }}</pre>
 @endif
-
-@if (!empty(session()->all()))
-<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
-
-<b>Session Data:</b>
-<pre>{{ json_encode(session()->all(), JSON_PRETTY_PRINT) }}</pre>
 @endif
-
-<code>_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-</code>
 
 <b>Trace:</b>
-<pre>{{ $trace }}</pre>
+<blockquote expandable>{{ $trace }}</blockquote>

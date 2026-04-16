@@ -42,11 +42,9 @@ class TelegramLoggerServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/telegram-logger'),
         ], 'telegram-logger-views');
 
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                SendTestMessageCommand::class,
-            ]);
-        }
+        $this->commands([
+            SendTestMessageCommand::class,
+        ]);
 
         $errorCodes = config('telegram-logger.log_errors');
 
@@ -59,17 +57,10 @@ class TelegramLoggerServiceProvider extends ServiceProvider
                 }
 
                 if (in_array($code, $errorCodes)) {
-                    $additionalData = [
-                        'Request Method' => request()->method(),
-                        'Request URL' => request()->url(),
-                        'User Agent' => request()->header('User-Agent'),
-                    ];
-
                     telegramLog()->error(
-                        (new FormatExceptionForTelegramType())
+                        new FormatExceptionForTelegramType()
                             ->execute(
                                 $e,
-                                $additionalData,
                             )
                     );
                 }
