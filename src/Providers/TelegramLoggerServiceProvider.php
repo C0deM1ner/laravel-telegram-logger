@@ -58,7 +58,7 @@ class TelegramLoggerServiceProvider extends ServiceProvider
 
                 if (in_array($code, $errorCodes)) {
                     telegramLog()->error(
-                        new FormatExceptionForTelegramType()
+                        (new FormatExceptionForTelegramType())
                             ->execute(
                                 $e,
                             )
