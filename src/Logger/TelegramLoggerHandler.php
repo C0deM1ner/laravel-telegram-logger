@@ -2,33 +2,44 @@
 
 namespace C0deM1ner\LaravelTelegramLogger\Logger;
 
+use InvalidArgumentException;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Throwable;
 
 class TelegramLoggerHandler extends AbstractProcessingHandler
 {
     public string $token;
+
     public string $chatId;
+
     public string $type;
 
     public function __construct(array $config)
     {
-        $level = Logger::toMonologLevel($config['level']);
+        parent::__construct(Logger::toMonologLevel($config['level'] ?? 'debug'));
 
-        parent::__construct($level);
+        $this->token = (string) ($config['token'] ?? config('telegram-logger.token'));
+        $this->chatId = (string) ($config['chat_id'] ?? config('telegram-logger.chat_id'));
+        $this->type = $config['type'] ?? 'error';
 
-        $this->token = $config['token'];
-        $this->chatId = $config['chat_id'];
-        $this->type = $config['type'];
+        if (! in_array($this->type, ['info', 'alert', 'error'], true)) {
+            throw new InvalidArgumentException("Telegram log channel type must be info, alert or error, [{$this->type}] given.");
+        }
     }
 
     protected function write($record): void
     {
-        $type = $this->type ?? config('telegram-logger.default_logger_type', 'error');
+        $exception = $record['context']['exception'] ?? null;
+
+        if ($exception instanceof Throwable
+            && (telegramLog()->wasReported($exception) || telegramLog()->shouldIgnore($exception))) {
+            return;
+        }
 
         telegramLog()
             ->setToken($this->token)
             ->setChatId($this->chatId)
-            ->$type($record['formatted']);
+            ->{$this->type}(e($record['formatted']));
     }
 }

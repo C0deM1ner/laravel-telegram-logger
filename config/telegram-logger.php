@@ -3,95 +3,49 @@
 return [
 
     /*
-    |--------------------------------------------------------------------------
-    | Telegram Bot Token
-    |--------------------------------------------------------------------------
-    |
-    | This option defines the Telegram Bot Token that gets used when sending
-    | messages to the Telegram Bot API. You can get your Bot Token from
-    | the BotFather on Telegram.
-    |
-    */
+     * Bot token from @BotFather and the chat to send messages to.
+     * Find the chat id with: php artisan telegram-log:get-updates
+     */
 
     'token' => env('TELEGRAM_BOT_TOKEN', ''),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Telegram Chat ID
-    |--------------------------------------------------------------------------
-    |
-    | This option defines the Telegram Chat ID that gets used when sending
-    | messages to the Telegram Bot API. You can get your Chat ID by
-    | sending a message to the bot and then visiting the following URL:
-    | https://api.telegram.org/bot<YourBOTToken>/getUpdates
-    |
-    */
-
-    'chat_id' => env('TELEGRAM_CHAT_ID', '1234567'),
+    'chat_id' => env('TELEGRAM_CHAT_ID', ''),
 
     /*
-    |--------------------------------------------------------------------------
-    | Telegram Bot Parse Mode
-    |--------------------------------------------------------------------------
-    |
-    | This option defines the default parse mode that gets used when sending
-    | messages to the Telegram Bot API. The parse mode can be either "html"
-    | or "markdown". The default value is "html".
-    |
-    */
+     * HTTP status codes that are reported automatically.
+     * Exceptions without a status code count as 500. Use [] to turn it off.
+     */
 
-    'parse_mode' => 'html',
+    'log_errors' => [500],
 
     /*
-    |--------------------------------------------------------------------------
-    | Default Log Type
-    |--------------------------------------------------------------------------
-    |
-    | This option defines the default log type that gets used when sending
-    | messages to the Telegram Bot API. The default value is "error".
-    | can be either "info", "alert" or "error".
-    |
-    */
+     * Report queued jobs that fail after their last attempt.
+     */
 
-    'default_logger_type' => 'error',
+    'log_failed_jobs' => true,
 
     /*
-    |--------------------------------------------------------------------------
-    | Errors to log
-    |--------------------------------------------------------------------------
-    |
-    | This option defines the errors that should be logged to the Telegram Bot
-    | API. The default value is "500". You can add more error codes to the
-    | array to log more errors.
-    |
-    */
+     * Exceptions that are never sent to Telegram (they still go to your other logs).
+     * Every key is optional and "*" wildcards are allowed:
+     *
+     * [
+     *     'exception' => TypeError::class,    // subclasses match too
+     *     'request'   => 'livewire/update',   // request path
+     *     'contains'  => 'Cannot assign',     // text in the exception message
+     * ],
+     */
 
-    'log_errors' => [
-        '500'
+    'ignore' => [
+        //
     ],
 
     /*
-     | --------------------------------------------------------------------------
-     | Rate Limiter max attempts
-     | --------------------------------------------------------------------------
-     |
-     | This option defines the maximum number of attempts to send a message
-     | to the Telegram Bot API. The default value is 1.
-     | Telegram log will send one exemplary message per day.
-     |
+     * The same message is sent at most `max_attempts` times per `decay_seconds`.
+     * By default: once a day.
      */
 
     'max_attempts' => 1,
 
-    /*
-     | --------------------------------------------------------------------------
-     | Rate Limiter decay seconds
-     | --------------------------------------------------------------------------
-     |
-     | This option defines the number of seconds to wait before retrying to
-     | send a message to the Telegram Bot API. The default value is 1 day.
-     |
-     */
-
     'decay_seconds' => 60 * 60 * 24,
+
 ];
